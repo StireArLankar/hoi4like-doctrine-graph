@@ -8,6 +8,7 @@ export default makeStyles((theme: Theme) =>
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
+      minWidth: 'max-content',
     },
     table: {},
     row: {
@@ -16,15 +17,15 @@ export default makeStyles((theme: Theme) =>
     },
     subtree: {
       display: 'grid',
-      gridColumnGap: 12,
+      gridColumnGap: 22,
       placeItems: 'center',
       position: 'relative',
     },
     top: {},
     bottom: {},
     leaf: {
-      height: 50,
-      width: 60,
+      height: 100,
+      width: 200,
       background: 'black',
       margin: `10px auto`,
       display: 'grid',
