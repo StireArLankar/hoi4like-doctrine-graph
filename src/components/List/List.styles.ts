@@ -16,7 +16,7 @@ export default makeStyles((theme: Theme) =>
     },
     subtree: {
       display: 'grid',
-      gridColumnGap: 10,
+      gridColumnGap: 12,
       placeItems: 'center',
       position: 'relative',
     },
