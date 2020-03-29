@@ -1,0 +1,11 @@
+import createStyles from '@material-ui/core/styles/createStyles'
+import makeStyles from '@material-ui/core/styles/makeStyles'
+import { Theme } from '@material-ui/core/styles/createMuiTheme'
+
+export default makeStyles((theme: Theme) =>
+  createStyles({
+    wrapper: {
+      top: 0,
+    },
+  })
+)
