@@ -1,14 +1,9 @@
 import React, { useState, memo, useEffect, useRef } from 'react'
 import clsx from 'clsx'
 
+import { useOvermind, TreeModel } from '../../overmind'
+
 import useStyles from './List.styles'
-import { tree, Test } from './data'
-
-// import { Item, ItemProps } from '../Item/Item'
-
-export interface ListProps {
-  items: any[]
-}
 
 export interface ItemProps {
   id: string
@@ -19,13 +14,15 @@ export interface ItemProps {
 const Item = memo(({ id, children, isFirst }: ItemProps) => {
   const classes = useStyles()
 
+  useOvermind()
+
   const [coords, setCoords] = useState<number[]>([])
 
   const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (children.length > 0) {
-      const newCoords = children.reduce((acc, id) => {
+      const newCoords = children.reduce<number[]>((acc, id) => {
         const el = document.getElementById(id)
 
         if (el) {
@@ -34,7 +31,7 @@ const Item = memo(({ id, children, isFirst }: ItemProps) => {
         }
 
         return acc
-      }, [] as number[])
+      }, [])
 
       setCoords(newCoords)
     }
@@ -86,15 +83,18 @@ const Item = memo(({ id, children, isFirst }: ItemProps) => {
   )
 })
 
-export const List = (props: ListProps) => {
-  const { items } = props
+export const List = () => {
+  const {
+    state: { tree },
+  } = useOvermind()
 
   const classes = useStyles()
 
-  const renderTree = (tree: Test): JSX.Element => {
+  const renderTree = (tree: TreeModel): JSX.Element => {
     if (Array.isArray(tree)) {
       return (
         <div
+          key='array'
           className={classes.subtree}
           style={{ gridTemplateColumns: `repeat(${tree.length}, 1fr)` }}
         >
