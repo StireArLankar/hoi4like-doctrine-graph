@@ -1,20 +1,16 @@
 import React, { useState, memo, useEffect, useRef } from 'react'
 import clsx from 'clsx'
 
-import { useOvermind, TreeModel } from '../../overmind'
+import { useOvermind, TreeModel, ItemModel } from '../../overmind'
 
 import useStyles from './List.styles'
 
-export interface ItemProps {
-  id: string
-  children: string[]
-  isFirst?: boolean
-}
+const Item = memo((props: ItemModel) => {
+  const { id, children, isFirst, active } = props
 
-const Item = memo(({ id, children, isFirst }: ItemProps) => {
   const classes = useStyles()
 
-  useOvermind()
+  const { actions } = useOvermind()
 
   const [coords, setCoords] = useState<number[]>([])
 
@@ -44,9 +40,11 @@ const Item = memo(({ id, children, isFirst }: ItemProps) => {
         className={clsx(
           classes.leaf,
           !isFirst && classes.top,
+          active && classes.active,
           children.length > 0 && classes.bottom
         )}
         id={id}
+        onClick={() => actions.setActive(id)}
       >
         {id}
       </div>

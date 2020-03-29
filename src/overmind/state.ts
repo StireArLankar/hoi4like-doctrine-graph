@@ -2,23 +2,25 @@ import { Derive } from 'overmind'
 
 import { getTree } from './data'
 
-interface ItemModel {
+export interface Item {
   id: string
   children: string[]
   isFirst?: boolean
+  active?: boolean
 }
 
-export type Tree = ItemModel | Tree[]
+export type Tree = Item | Tree[]
 
 export type IState = {
-  items: Record<string, ItemModel>
+  items: Record<string, Item>
+  active: string[]
   tree: Derive<IState, Tree[]>
   count: number
 }
 
 export const state: IState = {
   items: {
-    '1': { id: '1', children: ['2a', '2b'], isFirst: true },
+    '1': { id: '1', children: ['2a', '2b'], isFirst: true, active: true },
     '2a': { id: '2a', children: ['3a'] },
     '2b': { id: '2b', children: ['3ba', '3bb'] },
 
@@ -48,12 +50,7 @@ export const state: IState = {
 
     '10': { id: '10', children: [] },
   },
+  active: ['1'],
   tree: ({ items }) => getTree(Object.values(items)),
   count: 0,
-}
-
-interface ItemModel {
-  id: string
-  children: string[]
-  isFirst?: boolean
 }

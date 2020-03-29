@@ -23,15 +23,21 @@ export default makeStyles((theme: Theme) =>
     },
     top: {},
     bottom: {},
+    active: {},
     leaf: {
       height: 100,
       width: 200,
-      background: 'black',
       margin: `10px auto`,
       display: 'grid',
       placeItems: 'center',
       color: 'white',
       position: 'relative',
+
+      background: 'black',
+      transition: 'background 0.3s ease',
+      '&:hover, &$active': {
+        background: 'darkblue',
+      },
 
       '&::before, &::after': {
         position: 'absolute',

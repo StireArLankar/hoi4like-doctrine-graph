@@ -1,10 +1,11 @@
 import { createOvermind, IConfig } from 'overmind'
 import { createHook } from 'overmind-react'
 
-import { state, Tree } from './state'
+import { state, Tree, Item } from './state'
 import * as actions from './actions'
 
 export type TreeModel = Tree
+export type ItemModel = Item
 
 const config = {
   state,
