@@ -81,7 +81,7 @@ const Item = memo((props: ItemModel) => {
   )
 })
 
-export const List = () => {
+export const List = memo(() => {
   const {
     state: { tree },
   } = useOvermind()
@@ -107,12 +107,14 @@ export const List = () => {
   const renderItems = () => {
     return (
       <div className={classes.table}>
-        {tree.map((leaf) => (
-          <div className={classes.row}>{renderTree(leaf)}</div>
+        {tree.map((leaf, index) => (
+          <div key={index} className={classes.row}>
+            {renderTree(leaf)}
+          </div>
         ))}
       </div>
     )
   }
 
   return <div className={classes.wrapper}>{renderItems()}</div>
-}
+})
