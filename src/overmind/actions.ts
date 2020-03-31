@@ -1,11 +1,25 @@
 import { Action } from 'overmind'
 
+import { Item, StateItem } from './state'
+import { getTree } from './data'
+
 export const increaseCount: Action = ({ state }) => {
   state.count++
 }
 
 export const decreaseCount: Action = ({ state }) => {
   state.count--
+}
+
+export const setData: Action<Item[]> = ({ state }, data) => {
+  state.items = data.reduce((acc, cur) => {
+    acc[cur.id] = cur.isFirst ? { ...cur, active: true } : { ...cur }
+    return acc
+  }, {} as Record<string, StateItem>)
+
+  state.active = ['1']
+
+  state.tree = getTree(data)
 }
 
 export const setActive: Action<string> = ({ state }, id) => {
