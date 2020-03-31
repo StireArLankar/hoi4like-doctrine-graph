@@ -2,16 +2,18 @@ import React, { useState, memo, useEffect, useRef } from 'react'
 import clsx from 'clsx'
 
 import { useOvermind } from '../../overmind'
-import { ITestItem } from '../../overmind/state'
+import { IHoi4Item } from '../../overmind/state'
 
 import useStyles from './List.styles'
 
-export const TestItem = memo(({ id }: { id: string }) => {
+export const Hoi4Item = memo(({ id }: { id: string }) => {
   const classes = useStyles()
 
   const { state, actions } = useOvermind()
 
-  const { children, isFirst, active } = state.items[id] as ITestItem
+  const { children, isFirst, active, description } = state.items[
+    id
+  ] as IHoi4Item
 
   const ref = useRef<HTMLDivElement>(null)
 
@@ -35,8 +37,6 @@ export const TestItem = memo(({ id }: { id: string }) => {
 
     return () => void clearTimeout(t)
   }, [])
-
-  // console.count(id)
 
   const renderConnections = () =>
     children.map((child, index) => {
@@ -82,7 +82,7 @@ export const TestItem = memo(({ id }: { id: string }) => {
   return (
     <div className={classes.leafWrapper}>
       <div ref={ref} className={className} id={id} onClick={onClick}>
-        {id}
+        {description}
       </div>
 
       {didMount && renderConnections()}

@@ -7,7 +7,7 @@ import useStyles from './List.styles'
 
 export const List = memo(() => {
   const {
-    state: { tree },
+    state: { tree, type },
   } = useOvermind()
 
   console.count('list')
@@ -30,17 +30,19 @@ export const List = memo(() => {
     return <ItemMapper id={tree.id} key={tree.id} />
   }
 
-  const renderItems = () => {
-    return (
-      <div className={classes.table}>
-        {tree.map((leaf, index) => (
-          <div key={index} className={classes.row}>
-            {renderTree(leaf)}
-          </div>
-        ))}
-      </div>
-    )
-  }
+  const renderItems = () => (
+    <div className={classes.table}>
+      {tree.map((leaf, index) => (
+        <div key={index} className={classes.row}>
+          {renderTree(leaf)}
+        </div>
+      ))}
+    </div>
+  )
 
-  return <div className={classes.wrapper}>{renderItems()}</div>
+  return (
+    <div className={classes.wrapper} key={type}>
+      {renderItems()}
+    </div>
+  )
 })

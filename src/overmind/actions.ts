@@ -11,15 +11,29 @@ export const decreaseCount: Action = ({ state }) => {
   state.count--
 }
 
-export const setData: Action<Item[]> = ({ state }, data) => {
+type SetDataProps = {
+  data: Item[]
+  type: string
+}
+
+export const setData: Action<SetDataProps> = ({ state }, { data, type }) => {
+  if (state.type === type) {
+    return
+  }
+
   state.items = data.reduce((acc, cur) => {
-    acc[cur.id] = cur.isFirst ? { ...cur, active: true } : { ...cur }
+    if (cur.isFirst) {
+      state.active = [cur.id]
+      acc[cur.id] = { ...cur, active: true }
+    } else {
+      acc[cur.id] = { ...cur }
+    }
     return acc
   }, {} as Record<string, StateItem>)
 
-  state.active = ['1']
-
   state.tree = getTree(data)
+
+  state.type = type
 }
 
 export const setActive: Action<string> = ({ state }, id) => {
