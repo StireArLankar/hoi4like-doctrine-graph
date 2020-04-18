@@ -1,4 +1,6 @@
-import React, { memo } from 'react'
+import React, { memo, useState, useEffect } from 'react'
+
+import { useOvermind } from '../../overmind'
 
 const fix = (num: number) => num.toFixed(3)
 const min_diff = 42
@@ -21,8 +23,6 @@ const getFieldPosition = (field: string): { left: number; top: number } => {
     left: rect.left + diff,
   }
 
-  o1.top += diff
-  o1.left += diff
   return o1
 }
 
@@ -47,27 +47,75 @@ const getPath = (from: string, to: string) => {
   const x4 = f2.left + ofx
   const y4 = f2.top + ofy
 
+  if (x1 < 0 || x4 < 0) {
+    return ''
+  }
+
   const diffx = getSecondaryCoord(x1, x4)
 
   const x2 = x1 + diffx * 0.5
-  const y2 = y1
+  const y2 = y1 + 3
   const x3 = x4 - diffx * 0.5
-  const y3 = y4
+  const y3 = y4 - 3
   const arr1 = [fix(x1), fix(y1)].join(', ')
-  const arr2 = [x2, y2, x3, y3, fix(x4), fix(y4)].join(', ')
+  const arr2 = [x2, y2, x3, y3, fix(x4), fix(y3)].join(', ')
 
-  return `M${arr1}, C${arr2}`
+  return `M${arr1}, V${fix(y2)}, C${arr2}, V${fix(y4)}`
 }
 
 export const Connection = ({ from, to }: { from: string; to: string }) => {
-  return <path fill='none' stroke='#555555' d={getPath(from, to)} />
+  const path = getPath(from, to)
+
+  return (
+    <path
+      fill='none'
+      strokeWidth='3'
+      strokeLinecap='round'
+      stroke='black'
+      d={path}
+    />
+  )
 }
 
 export const Connections = memo(() => {
+  const [, setCount] = useState(0)
+
+  const {
+    state: { items },
+  } = useOvermind()
+
+  useEffect(() => {
+    setCount(1)
+    const handler = () => setCount((prev) => prev + 1)
+    window.addEventListener('resize', handler)
+    return () => window.removeEventListener('resize', handler)
+  }, [])
+
+  const renderConnections = () =>
+    Object.values(items).map((item) =>
+      item.children.map((child) => (
+        <Connection
+          key={child}
+          from={`${item.id}-bottom`}
+          to={`${child}-top`}
+        />
+      ))
+    )
+
   return (
-    <div style={{ width: '100%', height: '100%' }} id='container-wrapper'>
-      asd
-      <span>asd</span>
-    </div>
+    <svg
+      style={{
+        position: 'absolute',
+        width: '100%',
+        height: '100%',
+        top: 0,
+        left: 0,
+        pointerEvents: 'none',
+        zIndex: -1,
+      }}
+      id='container-wrapper'
+    >
+      {renderConnections()}
+    </svg>
   )
 })

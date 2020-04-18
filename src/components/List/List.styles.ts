@@ -9,6 +9,7 @@ export default makeStyles((theme: Theme) =>
       flexDirection: 'column',
       alignItems: 'center',
       minWidth: 'max-content',
+      position: 'relative',
     },
     table: {},
     row: {
@@ -20,46 +21,6 @@ export default makeStyles((theme: Theme) =>
       gridColumnGap: 22,
       placeItems: 'center',
       position: 'relative',
-    },
-    top: {},
-    bottom: {},
-    active: {},
-    leaf: {
-      height: 100,
-      width: 200,
-      margin: `10px auto`,
-      display: 'grid',
-      placeItems: 'center',
-      color: 'white',
-      position: 'relative',
-
-      background: 'black',
-      transition: 'background 0.3s ease',
-      '&:hover, &$active': {
-        background: 'darkblue',
-      },
-
-      '&::before, &::after': {
-        position: 'absolute',
-        left: '50%',
-        width: 2,
-        height: 10,
-        transform: 'translateX(-50%)',
-        background: 'black',
-      },
-
-      '&$top::before': {
-        content: '""',
-        top: -10,
-      },
-      '&$bottom::after': {
-        content: '""',
-        bottom: -10,
-      },
-    },
-    leafWrapper: {
-      position: 'relative',
-      width: '100%',
     },
   })
 )

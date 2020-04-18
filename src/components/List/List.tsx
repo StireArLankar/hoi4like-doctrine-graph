@@ -1,6 +1,7 @@
 import React, { memo } from 'react'
 
 import { TreeModel, useOvermind } from '../../overmind'
+import { Connections } from '../Connections/Connections'
 
 import { ItemMapper } from './ItemMapper'
 import useStyles from './List.styles'
@@ -43,6 +44,7 @@ export const List = memo(() => {
   return (
     <div className={classes.wrapper} key={type}>
       {renderItems()}
+      <Connections key={type} />
     </div>
   )
 })
