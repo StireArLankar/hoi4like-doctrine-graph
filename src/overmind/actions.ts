@@ -11,6 +11,14 @@ export const decreaseCount: Action = ({ state }) => {
   state.count--
 }
 
+export const setDragged: Action<string> = ({ state }, id) => {
+  !state.dragged.includes(id) && state.dragged.push(id)
+}
+
+export const stopDragging: Action<string> = ({ state }, id) => {
+  state.dragged = state.dragged.filter((current) => current !== id)
+}
+
 type SetDataProps = {
   data: Item[]
   type: string
@@ -26,7 +34,7 @@ export const setData: Action<SetDataProps> = ({ state }, { data, type }) => {
       state.active = [cur.id]
       acc[cur.id] = { ...cur, active: true }
     } else {
-      acc[cur.id] = { ...cur }
+      acc[cur.id] = { ...cur, active: false }
     }
     return acc
   }, {} as Record<string, StateItem>)

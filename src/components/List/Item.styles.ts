@@ -16,13 +16,17 @@ export default makeStyles((theme: Theme) =>
 
       background: 'black',
       transition: 'background 0.3s ease',
-      '&:hover, &$active': {
+      '&$active': {
         background: 'darkblue',
       },
     },
     leafWrapper: {
       position: 'relative',
       width: '100%',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'space-evenly',
       textAlign: 'center',
     },
     top: {},

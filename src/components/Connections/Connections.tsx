@@ -1,51 +1,39 @@
-import React, { memo, useState, useEffect } from 'react'
+import React, { memo, useState, useEffect, useRef } from 'react'
 
 import { useOvermind } from '../../overmind'
 
 const fix = (num: number) => num.toFixed(3)
-const min_diff = 42
-const getSecondaryCoord = (start: number, end: number) =>
-  Math.sign(end - start) * Math.max(min_diff, Math.abs(end - start))
 
-const getFieldPosition = (field: string): { left: number; top: number } => {
+const getSecondaryCoord = (start: number, end: number) => end - start
+
+const getFieldPosition = (
+  field: string,
+  parent?: boolean
+): { x: number; y: number } => {
   const element = document.getElementById(`${field}`)
 
   if (!element) {
-    return { left: 0, top: 0 }
+    return { x: 0, y: 0 }
   }
 
   const rect = element.getBoundingClientRect()
-  // const diff = 3
-  const diff = 0
 
   const o1 = {
-    top: rect.top + diff,
-    left: rect.left + diff,
+    y: parent ? rect.bottom : rect.top,
+    x: rect.left + rect.width / 2,
   }
 
   return o1
 }
 
-const getPath = (from: string, to: string) => {
-  const f1 = getFieldPosition(from)
+const getPath = (from: string, to: string, ofx: number, ofy: number) => {
+  const f1 = getFieldPosition(from, true)
   const f2 = getFieldPosition(to)
 
-  const wrapper = document.getElementById('container-wrapper')
-
-  if (!wrapper) {
-    return ''
-  }
-
-  const offset = wrapper.getBoundingClientRect()
-
-  const ofx = wrapper.scrollLeft - offset.left
-
-  const ofy = wrapper.scrollTop - offset.top
-
-  const x1 = f1.left + ofx
-  const y1 = f1.top + ofy
-  const x4 = f2.left + ofx
-  const y4 = f2.top + ofy
+  const x1 = f1.x + ofx
+  const y1 = f1.y + ofy
+  const x4 = f2.x + ofx
+  const y4 = f2.y + ofy
 
   if (x1 < 0 || x4 < 0) {
     return ''
@@ -63,8 +51,57 @@ const getPath = (from: string, to: string) => {
   return `M${arr1}, V${fix(y2)}, C${arr2}, V${fix(y4)}`
 }
 
-export const Connection = ({ from, to }: { from: string; to: string }) => {
-  const path = getPath(from, to)
+interface ConnectionProps {
+  from: string
+  to: string
+  wrapper: React.RefObject<SVGSVGElement>
+  dragged?: boolean
+
+  force: number
+}
+
+export const Connection = memo((props: ConnectionProps) => {
+  const { from, to, wrapper, dragged, force } = props
+  const [path, setPath] = useState('')
+
+  useOvermind()
+
+  const loopRef = useRef(0)
+
+  useEffect(() => {
+    if (!wrapper.current) {
+      return setPath('')
+    }
+
+    const offset = wrapper.current.getBoundingClientRect()
+
+    const ofx = wrapper.current.scrollLeft - offset.left
+
+    const ofy = wrapper.current.scrollTop - offset.top
+
+    setPath(getPath(from, to, ofx, ofy))
+
+    if (dragged) {
+      const loop = () => {
+        if (wrapper.current) {
+          const offset = wrapper.current.getBoundingClientRect()
+
+          const ofx = wrapper.current.scrollLeft - offset.left
+
+          const ofy = wrapper.current.scrollTop - offset.top
+
+          setPath(getPath(from, to, ofx, ofy))
+        }
+
+        loopRef.current = window.requestAnimationFrame(loop)
+      }
+
+      loopRef.current = window.requestAnimationFrame(loop)
+    } else {
+      window.cancelAnimationFrame(loopRef.current)
+      loopRef.current = 0
+    }
+  }, [from, to, dragged, wrapper, force])
 
   return (
     <path
@@ -75,18 +112,21 @@ export const Connection = ({ from, to }: { from: string; to: string }) => {
       d={path}
     />
   )
-}
+})
 
 export const Connections = memo(() => {
-  const [, setCount] = useState(0)
+  const [force, setForce] = useState(0)
 
   const {
-    state: { items },
+    state: { items, dragged },
   } = useOvermind()
 
+  const ref = useRef<SVGSVGElement>(null)
+
   useEffect(() => {
-    setCount(1)
-    const handler = () => setCount((prev) => prev + 1)
+    setForce(1)
+    const handler = () => setForce((prev) => prev + 1)
+
     window.addEventListener('resize', handler)
     return () => window.removeEventListener('resize', handler)
   }, [])
@@ -96,8 +136,11 @@ export const Connections = memo(() => {
       item.children.map((child) => (
         <Connection
           key={child}
-          from={`${item.id}-bottom`}
-          to={`${child}-top`}
+          from={item.id}
+          to={child}
+          wrapper={ref}
+          force={force}
+          dragged={dragged.includes(item.id) || dragged.includes(child)}
         />
       ))
     )
@@ -113,7 +156,7 @@ export const Connections = memo(() => {
         pointerEvents: 'none',
         zIndex: -1,
       }}
-      id='container-wrapper'
+      ref={ref}
     >
       {renderConnections()}
     </svg>

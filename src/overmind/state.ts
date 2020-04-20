@@ -26,6 +26,8 @@ export type IState = {
   active: string[]
   tree: Tree[]
   count: number
+
+  dragged: string[]
 }
 
 const data: Item[] = [
@@ -62,11 +64,15 @@ const data: Item[] = [
 
 export const state: IState = {
   items: data.reduce((acc, cur) => {
-    acc[cur.id] = cur.isFirst ? { ...cur, active: true } : { ...cur }
+    acc[cur.id] = cur.isFirst
+      ? { ...cur, active: true }
+      : { ...cur, active: false }
     return acc
   }, {} as Record<string, StateItem>),
   type: 'test1',
   active: ['1'],
   tree: getTree(data),
   count: 0,
+
+  dragged: [],
 }

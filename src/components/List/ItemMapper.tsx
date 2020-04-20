@@ -3,7 +3,8 @@ import React, { memo } from 'react'
 import { useOvermind } from '../../overmind'
 
 import { TestItem } from './TestItem'
-import { Hoi4Item } from './Hoi4Item'
+// import { Hoi4Item } from './Hoi4Item'
+import { Hoi4Item } from './ConnectedItem'
 
 export const ItemMapper = memo(({ id }: { id: string }) => {
   const { state } = useOvermind()

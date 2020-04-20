@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 
 import { withOvermind } from '../../_storybook/withOvermind'
 
@@ -10,7 +10,7 @@ export default {
 }
 
 const Temp = () => {
-  const [, setCount] = useState(0)
+  const [force, setCount] = useState(0)
 
   useEffect(() => {
     setCount(1)
@@ -19,11 +19,24 @@ const Temp = () => {
     return () => window.removeEventListener('resize', handler)
   }, [])
 
+  const ref = useRef(null)
+
   return (
-    <>
-      <Connection from='bottom-1' to='top-2' />
-      <Connection from='bottom-2' to='top-3' />
-    </>
+    <svg
+      style={{
+        position: 'absolute',
+        width: '100%',
+        height: '100%',
+        top: 0,
+        left: 0,
+        pointerEvents: 'none',
+        zIndex: -1,
+      }}
+      ref={ref}
+    >
+      <Connection force={force} wrapper={ref} from='bottom-1' to='top-2' />
+      <Connection force={force} wrapper={ref} from='bottom-2' to='top-3' />
+    </svg>
   )
 }
 
@@ -89,19 +102,7 @@ export const connection = () => {
         />
       </div>
 
-      <svg
-        style={{
-          position: 'absolute',
-          width: '100%',
-          height: '100%',
-          top: 0,
-          left: 0,
-          pointerEvents: 'none',
-          zIndex: -1,
-        }}
-      >
-        <Temp />
-      </svg>
+      <Temp />
     </div>
   )
 }
