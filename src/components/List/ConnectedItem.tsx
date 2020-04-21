@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react'
+import React, { useRef, useEffect, useState } from 'react'
 import clsx from 'clsx'
 import { useDrag } from 'react-use-gesture'
 import { useSpring, animated } from 'react-spring'
@@ -13,6 +13,8 @@ const trans = (x: number, y: number) => `translate3d(${x}px, ${y}px, 0)`
 export const Hoi4Item = ({ id }: { id: string }) => {
   const classes = useStyles()
 
+  const [isOpen, setIsOpen] = useState(false)
+
   const { state, actions } = useOvermind()
 
   const item = state.items[id]
@@ -24,6 +26,24 @@ export const Hoi4Item = ({ id }: { id: string }) => {
   const className = clsx(classes.leaf, active && classes.active)
 
   const isDragging = useRef(false)
+
+  const [{ height }, setH] = useSpring(() => ({
+    height: 150,
+    config: {
+      tension: 200,
+      clamp: true,
+    },
+    onRest: () => {
+      actions.stopAnimating(id)
+    },
+  }))
+
+  useEffect(() => void setH({ height: isOpen ? 200 : 150 }), [isOpen, setH])
+
+  const toggle = () => {
+    setIsOpen((prev) => !prev)
+    actions.setAnimating(id)
+  }
 
   const [{ xy }, set] = useSpring(() => ({
     xy: [0, 0] as [number, number],
@@ -51,27 +71,29 @@ export const Hoi4Item = ({ id }: { id: string }) => {
       <animated.div
         className={className}
         id={id}
-        style={{ transform: xy.interpolate(trans as any) }}
+        style={{
+          transform: xy.interpolate(trans as any),
+          height,
+        }}
       >
         <div
           style={{
-            height: 10,
-            width: 50,
-            background: 'red',
-            userSelect: 'none',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
           }}
-          {...bind()}
-        />
-        {description}
-        <div
-          style={{
-            height: 10,
-            width: 50,
-            background: 'red',
-            userSelect: 'none',
-          }}
-          onClick={onClick}
-        />
+        >
+          {description}
+          <div className={classes.button} {...bind()}>
+            drag
+          </div>
+          <div className={classes.button} onClick={onClick}>
+            active
+          </div>
+          <div className={classes.button} onClick={toggle}>
+            expand
+          </div>
+        </div>
       </animated.div>
     </div>
   )

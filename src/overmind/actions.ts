@@ -15,8 +15,22 @@ export const setDragged: Action<string> = ({ state }, id) => {
   !state.dragged.includes(id) && state.dragged.push(id)
 }
 
+export const setAnimating: Action<string> = ({ state }, id) => {
+  !state.animating.includes(id) && state.animating.push(id)
+}
+
+export const stopAnimating: Action<string> = ({ state }, id) => {
+  const index = state.animating.indexOf(id)
+  if (index > -1) {
+    state.animating.splice(index, 1)
+  }
+}
+
 export const stopDragging: Action<string> = ({ state }, id) => {
-  state.dragged = state.dragged.filter((current) => current !== id)
+  const index = state.dragged.indexOf(id)
+  if (index > -1) {
+    state.dragged.splice(index, 1)
+  }
 }
 
 type SetDataProps = {

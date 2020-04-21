@@ -41,5 +41,12 @@ export default makeStyles((theme: Theme) =>
         bottom: 0,
       },
     },
+    button: {
+      padding: '1px 10px',
+      marginTop: 5,
+      fontSize: 12,
+      background: 'teal',
+      userSelect: 'none',
+    },
   })
 )

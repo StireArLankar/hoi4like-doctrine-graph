@@ -1,3 +1,5 @@
+import { Derive } from 'overmind'
+
 import { getTree } from './data'
 
 export type Item = {
@@ -28,6 +30,8 @@ export type IState = {
   count: number
 
   dragged: string[]
+  animating: string[]
+  isAnimating: Derive<IState, boolean>
 }
 
 const data: Item[] = [
@@ -75,4 +79,6 @@ export const state: IState = {
   count: 0,
 
   dragged: [],
+  animating: [],
+  isAnimating: (state) => state.animating.length > 0,
 }

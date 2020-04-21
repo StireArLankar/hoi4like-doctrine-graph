@@ -64,8 +64,6 @@ export const Connection = memo((props: ConnectionProps) => {
   const { from, to, wrapper, dragged, force } = props
   const [path, setPath] = useState('')
 
-  useOvermind()
-
   const loopRef = useRef(0)
 
   useEffect(() => {
@@ -118,7 +116,7 @@ export const Connections = memo(() => {
   const [force, setForce] = useState(0)
 
   const {
-    state: { items, dragged },
+    state: { items, dragged, isAnimating },
   } = useOvermind()
 
   const ref = useRef<SVGSVGElement>(null)
@@ -140,7 +138,9 @@ export const Connections = memo(() => {
           to={child}
           wrapper={ref}
           force={force}
-          dragged={dragged.includes(item.id) || dragged.includes(child)}
+          dragged={
+            isAnimating || dragged.includes(item.id) || dragged.includes(child)
+          }
         />
       ))
     )
