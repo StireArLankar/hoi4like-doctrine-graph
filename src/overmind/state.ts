@@ -11,6 +11,7 @@ export type Item = {
 
 export interface IHoi4Item extends Item {
   type: 'hoi4'
+  title: string
   description: string
 }
 

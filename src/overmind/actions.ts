@@ -56,6 +56,9 @@ export const setData: Action<SetDataProps> = ({ state }, { data, type }) => {
   state.tree = getTree(data)
 
   state.type = type
+
+  state.animating = []
+  state.dragged = []
 }
 
 export const setActive: Action<string> = ({ state }, id) => {

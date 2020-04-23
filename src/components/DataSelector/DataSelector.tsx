@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React, { memo, useEffect } from 'react'
 
 import { useOvermind } from '../../overmind'
 
@@ -11,8 +11,20 @@ export const DataSelector = memo(() => {
 
   const classes = useStyles()
 
+  useEffect(() => {
+    actions.setData({ data: mobileWarfare, type: 'Mobile Warfare' })
+  }, [actions])
+
   return (
     <div className={classes.wrapper}>
+      <button
+        onClick={() =>
+          actions.setData({ data: mobileWarfare, type: 'Mobile Warfare' })
+        }
+      >
+        Mobile Warfare
+      </button>
+
       <button
         onClick={() => actions.setData({ data: testData1, type: 'test1' })}
       >
@@ -23,14 +35,6 @@ export const DataSelector = memo(() => {
         onClick={() => actions.setData({ data: testData2, type: 'test2' })}
       >
         Test items 2
-      </button>
-
-      <button
-        onClick={() =>
-          actions.setData({ data: mobileWarfare, type: 'Mobile Warfare' })
-        }
-      >
-        Mobile Warfare
       </button>
     </div>
   )
