@@ -2,13 +2,14 @@ import React, { memo } from 'react'
 
 import { TreeModel, useOvermind } from '../../overmind'
 import { Connections } from '../Connections/Connections'
+import { Info } from '../Info/Info'
 
 import { ItemMapper } from './ItemMapper'
 import useStyles from './List.styles'
 
 export const List = memo(() => {
   const {
-    state: { tree, type },
+    state: { tree },
   } = useOvermind()
 
   console.count('list')
@@ -42,9 +43,10 @@ export const List = memo(() => {
   )
 
   return (
-    <div className={classes.wrapper} key={type}>
+    <div className={classes.wrapper}>
       {renderItems()}
-      <Connections key={type} />
+      <Connections />
+      <Info />
     </div>
   )
 })
