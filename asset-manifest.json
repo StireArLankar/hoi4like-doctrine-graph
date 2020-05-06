@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.js": "/static/js/main.53913c7e.chunk.js",
-    "main.js.map": "/static/js/main.53913c7e.chunk.js.map",
-    "runtime-main.js": "/static/js/runtime-main.ee9e377c.js",
-    "runtime-main.js.map": "/static/js/runtime-main.ee9e377c.js.map",
-    "static/js/2.4365de78.chunk.js": "/static/js/2.4365de78.chunk.js",
-    "static/js/2.4365de78.chunk.js.map": "/static/js/2.4365de78.chunk.js.map",
-    "index.html": "/index.html",
-    "precache-manifest.4a2dc2a4c42fa3a52ea8f14432373554.js": "/precache-manifest.4a2dc2a4c42fa3a52ea8f14432373554.js",
-    "service-worker.js": "/service-worker.js",
-    "static/js/2.4365de78.chunk.js.LICENSE.txt": "/static/js/2.4365de78.chunk.js.LICENSE.txt"
+    "main.js": "/hoi4like-doctrine-graph/static/js/main.53913c7e.chunk.js",
+    "main.js.map": "/hoi4like-doctrine-graph/static/js/main.53913c7e.chunk.js.map",
+    "runtime-main.js": "/hoi4like-doctrine-graph/static/js/runtime-main.e5586c71.js",
+    "runtime-main.js.map": "/hoi4like-doctrine-graph/static/js/runtime-main.e5586c71.js.map",
+    "static/js/2.4365de78.chunk.js": "/hoi4like-doctrine-graph/static/js/2.4365de78.chunk.js",
+    "static/js/2.4365de78.chunk.js.map": "/hoi4like-doctrine-graph/static/js/2.4365de78.chunk.js.map",
+    "index.html": "/hoi4like-doctrine-graph/index.html",
+    "precache-manifest.5f86ccefeb8355de0eb07879dc553162.js": "/hoi4like-doctrine-graph/precache-manifest.5f86ccefeb8355de0eb07879dc553162.js",
+    "service-worker.js": "/hoi4like-doctrine-graph/service-worker.js",
+    "static/js/2.4365de78.chunk.js.LICENSE.txt": "/hoi4like-doctrine-graph/static/js/2.4365de78.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.ee9e377c.js",
+    "static/js/runtime-main.e5586c71.js",
     "static/js/2.4365de78.chunk.js",
     "static/js/main.53913c7e.chunk.js"
   ]
