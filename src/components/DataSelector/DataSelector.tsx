@@ -4,7 +4,7 @@ import { useOvermind } from '../../overmind'
 
 import useStyles from './DataSelector.styles'
 import { testData1, testData2 } from './test-data'
-import { mobileWarfare } from './hoi4-data'
+import { mobileWarfare, superiorFirepower } from './hoi4-data'
 
 export const DataSelector = memo(() => {
   const { actions } = useOvermind()
@@ -23,6 +23,17 @@ export const DataSelector = memo(() => {
         }
       >
         Mobile Warfare
+      </button>
+
+      <button
+        onClick={() =>
+          actions.setData({
+            data: superiorFirepower,
+            type: 'Superior Firepower',
+          })
+        }
+      >
+        Superior Firepower
       </button>
 
       <button

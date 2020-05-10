@@ -2,6 +2,7 @@
   "name": "hoi4like-doctrine-graph",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://stirearlankar.github.io/hoi4like-doctrine-graph/",
   "dependencies": {
     "@material-ui/core": "^4.9.8",
     "@testing-library/jest-dom": "^4.2.4",
@@ -29,7 +30,9 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "story": "start-storybook -p 9009 -s public",
-    "build-storybook": "build-storybook -s public"
+    "build-storybook": "build-storybook -s public",
+    "predeploy": "yarn run build",
+    "deploy": "gh-pages -d build"
   },
   "browserslist": {
     "production": [
@@ -51,6 +54,7 @@
     "@storybook/react": "^5.3.17",
     "eslint-config-prettier": "^6.10.1",
     "eslint-plugin-prettier": "^3.1.2",
+    "gh-pages": "^2.2.0",
     "prettier": "^2.0.2"
   }
 }

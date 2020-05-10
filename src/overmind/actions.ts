@@ -1,4 +1,4 @@
-import { Action } from 'overmind'
+import { Action, json } from 'overmind'
 
 import { Item, StateItem } from './state'
 import { getTree } from './data'
@@ -59,6 +59,8 @@ export const setData: Action<SetDataProps> = ({ state }, { data, type }) => {
 
   state.animating = []
   state.dragged = []
+
+  console.log(json(state))
 }
 
 export const setActive: Action<string> = ({ state }, id) => {

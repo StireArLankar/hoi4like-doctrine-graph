@@ -9,7 +9,7 @@ import useStyles from './List.styles'
 
 export const List = memo(() => {
   const {
-    state: { tree },
+    state: { tree, type },
   } = useOvermind()
 
   console.count('list')
@@ -33,7 +33,7 @@ export const List = memo(() => {
   }
 
   const renderItems = () => (
-    <div className={classes.table}>
+    <div className={classes.table} key={type}>
       {tree.map((leaf, index) => (
         <div key={index} className={classes.row}>
           {renderTree(leaf)}
@@ -45,7 +45,7 @@ export const List = memo(() => {
   return (
     <div className={classes.wrapper}>
       {renderItems()}
-      <Connections />
+      <Connections key={`${type} connection`} />
       <Info />
     </div>
   )
